@@ -1,9 +1,11 @@
 import { Request, Response, Router } from 'express';
 import productService from '../services/products.service';
+import midProducts from '../middlewares/validateProducts';
 
 const productsController = Router();
 
-productsController.post('/', async (req: Request, res: Response): Promise<Response> => {
+productsController.post('/', midProducts, async (req: Request, res: Response)
+: Promise<Response> => {
   const products = await productService.newProduct(req.body);
   return res.status(201).json(products);
 });
