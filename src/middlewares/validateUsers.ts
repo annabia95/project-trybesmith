@@ -6,8 +6,10 @@ const midUsersTypes = async (req: Request, res: Response, next: NextFunction):Pr
     const schema = Joi.object({
       username: Joi.string().min(3),
       classe: Joi.string().min(3),
-      level: Joi.number().min(1),
+      level: Joi.number().greater((1)),
       password: Joi.string().min(8),
+    }).messages({
+      'number.greater': '{{#label}} must be greater than or equal to 1',
     });
     await schema.validateAsync(req.body);
     next();
