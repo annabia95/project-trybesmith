@@ -9,8 +9,6 @@ const getOrders = async (req: Request, res: Response): Promise<Response> => {
 const createOrders = async (req: Request, res: Response): Promise<Response> => {
   const { save, productsIds } = req.body;
   const userId = save.user.id;
-  console.log(userId);
-  console.log(req.body);
   const newOrder = await orderService.createNewOrders({
     userId,
     productsIds,
