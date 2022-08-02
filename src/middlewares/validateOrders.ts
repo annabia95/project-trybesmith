@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import Iorders from '../interfaces/orders.interface';
 
-// productsIds: array;
-
 const midOrders = (req: Request, res: Response, next: NextFunction) => {
   const { productsIds }: Iorders = req.body;
 

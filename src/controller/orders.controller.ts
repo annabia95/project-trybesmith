@@ -1,26 +1,21 @@
-import { Request, Response, Router } from 'express';
-import validateToken from '../middlewares/validateToken';
+import { Request, Response } from 'express';
 import orderService from '../services/orders.service';
-import midOrders from '../middlewares/validateOrders';
 
-const ordersController = Router();
+const getOrders = async (req: Request, res: Response): Promise<Response> => {
+  const orders = await orderService.getOrders();
+  return res.status(200).json(orders);
+};
 
-ordersController.get(
-  '/',
-  async (req: Request, res: Response): Promise<Response> => {
-    const orders = await orderService.getOrders();
-    return res.status(200).json(orders);
-  },
-);
-
-ordersController.post('/', validateToken, midOrders, async (req: Request, res: Response) => {
+const createOrders = async (req: Request, res: Response): Promise<Response> => {
   const { save, productsIds } = req.body;
-  const { userId } = save;
+  const userId = save.user.id;
+  console.log(userId);
+  console.log(req.body);
   const newOrder = await orderService.createNewOrders({
     userId,
     productsIds,
   });
-  res.status(201).json(newOrder);
-});
+  return res.status(201).json(newOrder);
+};
 
-export default ordersController;
+export default { getOrders, createOrders };
